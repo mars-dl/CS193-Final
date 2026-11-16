@@ -1,4 +1,4 @@
-public class CS180HW5 {
+public class PascalsPyramid {
     /**
      * HW05 Pascals Pyramid
      *
@@ -8,9 +8,9 @@ public class CS180HW5 {
      * @version 9/27/26
      */
 
-    int[][][] pyramid;
+    static int[][][] pyramid;
 
-    void main() {
+    static void main() {
         initialize();
 
         int show = Integer.parseInt(IO.readln("Enter the layer to display:\n"));
@@ -34,7 +34,7 @@ public class CS180HW5 {
      * Asks the user for a number of layers, and creates a corresponding pyramid
      *
      */
-    void initialize() {
+    static void initialize() {
         int numLayers = Integer.parseInt(IO.readln("Enter the number of layers:\n"));
         pyramid = new int[numLayers][][];
         for (int layer = 0; layer < pyramid.length; layer++) {

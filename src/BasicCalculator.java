@@ -1,4 +1,4 @@
-public class CS180HW4 {
+public class BasicCalculator {
     /**
      * HW04 Basic Calculator
      *
@@ -7,7 +7,7 @@ public class CS180HW4 {
      * @author Ethan Ma, CRN SectionId: 10687-BLK
      * @version 9/18/26
      */
-    void main() {
+    static void main() {
         //menu
         IO.println("Welcome to Basic Calculator!");
         IO.println("1 - Enter an Equation\n2 - Exit");
@@ -40,7 +40,7 @@ public class CS180HW4 {
          * @param String eq is the equation
          * @return true or false if it contains a operator sign
          */
-        boolean containsOperator(String eq) {
+        static boolean containsOperator(String eq) {
             if ((eq.indexOf("+") != -1 ||
                     eq.indexOf("-") != -1 ||
                     eq.indexOf("*") != -1 ||
@@ -57,7 +57,7 @@ public class CS180HW4 {
          * @param String eq is the equation
          * @return index of the first operator sign, ^, *, /, +, -
          */
-        int indexOfFirstOrderOperator(String eq) {
+        static int indexOfFirstOrderOperator(String eq) {
             int indexPow = eq.indexOf("^");
             int indexMul = eq.indexOf("*");
             int indexDiv = eq.indexOf("/");
@@ -88,7 +88,7 @@ public class CS180HW4 {
          * @param int from is the index of the current operator sign, will be where it starts the search
          * @return index of the previous operator sign
          */
-        int indexOfPrevOperator(String eq, int from) {
+        static int indexOfPrevOperator(String eq, int from) {
             int lastAdd = eq.lastIndexOf("+", from - 1);
             int lastSub = eq.lastIndexOf("-", from - 1);
             int lastMul = eq.lastIndexOf("*", from - 1);
@@ -109,7 +109,7 @@ public class CS180HW4 {
          * @param int from is the index of the current operator sign, will be where it starts the search
          * @return index of the next operator sign
          */
-        int indexOfNextOperator(String eq, int from) {
+        static int indexOfNextOperator(String eq, int from) {
             int nextAdd = eq.indexOf("+", from + 1);
             if (nextAdd == -1) {
                 nextAdd = Integer.MAX_VALUE;
@@ -144,7 +144,7 @@ public class CS180HW4 {
          * @param int next is the idnex of the next operator sign
          * @return String eq is the modified version of the old eq
          */
-        String calculate(String eq, int prev, int first, int next) {
+        static String calculate(String eq, int prev, int first, int next) {
             double prevNum;
             double nextNum;
             double result;

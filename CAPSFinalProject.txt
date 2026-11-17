@@ -1,0 +1,504 @@
+#include <iostream>
+#include <limits>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+//IssueFinder
+//BVW CAPS - Technology Solutions and Programming Fundamentals Final
+//Ethan Ma 5/12/26
+
+class issue {
+    public:
+    string name;
+    int severity;
+    string bodyText;
+
+    issue(string n, int s, string t) {
+        name = n;
+        severity = s;
+        bodyText = t;
+    }
+
+    issue();
+
+    void print() {
+        cout  << name << " - ";
+        if (severity == 3) {
+            cout << "High Severity" << endl;
+        }
+        else if (severity == 2) {
+            cout << "Moderate Severity" << endl;
+        }
+        else if (severity == 1) {
+            cout << "Low Severity" << endl;
+        }
+        cout << bodyText << endl;
+    }
+
+    void adjustSev(int s) {
+        severity = s;
+    }
+};
+
+
+
+
+
+
+vector<issue> majIssues; //sev = 3
+vector<issue> Issues; //sev = 2
+vector<issue> minIssues; //sev = 1
+
+string databases[7] = {
+    "https://www.pewresearch.org/",
+    "https://usafacts.org/",
+    "https://apnews.com/",
+    "https://www.nbcnews.com/",
+    "https://www.cnn.com/",
+    "https://www.npr.org/",
+    "https://www.reuters.com/"};
+
+int day = 0;
+
+
+int intInput() {
+    int input;
+    while (!(cin >> input)) {
+        cout << "Invalid input, please try again." << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    if (input < 0) {
+        cout << "Invalid input, please try again." << endl;
+        input = intInput();
+    }
+    return input;
+}
+
+//obtains an int from 1 to 3, intended for the severity value
+int sevInput() {
+    int input;
+    while (!(cin >> input)) {
+        cout << "Invalid input, please try again." << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    if (input != 1 && input != 2 && input != 3) {
+        cout << "Invalid input, please try again." << endl;
+        input = sevInput();
+    }
+    return input;
+}
+
+//adds a custom issue
+void addIssue(int severity, string name, string bodyText) {
+    if (severity == 3) {
+        majIssues.push_back(issue{ name, severity, bodyText });
+    }
+    else if (severity == 2) {
+        Issues.push_back(issue{ name, severity, bodyText });
+    }
+    else if (severity == 1) {
+        minIssues.push_back(issue{ name, severity, bodyText });
+    }
+}
+
+//removes an issue
+void removeIssue(int severity, int index) {
+    if (severity == 3 && index < majIssues.size()) {
+        majIssues.erase(majIssues.begin() + index);
+    }
+    else if (severity == 2 && index < Issues.size()) {
+        Issues.erase(Issues.begin() + index);
+    }
+    else if (severity == 1 && index < minIssues.size()) {
+        minIssues.erase(minIssues.begin() + index);
+    }
+    else {
+        cout << "Error" << endl;
+    }
+}
+
+//fully prints an issue of a specific severity
+void print(int severity) {
+    if (severity == 3) {
+        for (issue i : majIssues) {
+            i.print();
+        }
+    }
+    if (severity == 2) {
+        for (issue i : Issues) {
+            i.print();
+        }
+    }
+    if (severity == 1) {
+        for (issue i : minIssues) {
+            i.print();
+        }
+    }
+}
+
+//prints the names of issue
+void miniPrint(int severity) {
+    if (severity == 3) {
+        for (int i = 0; i < majIssues.size(); i++) {
+            cout << i+1 << ") " << majIssues.at(i).name << endl;
+        }
+    }
+    if (severity == 2) {
+        for (int i = 0; i < Issues.size(); i++) {
+            cout << i+1 << ") " << Issues.at(i).name << endl;
+        }
+    }
+    if (severity == 1) {
+        for (int i = 0; i < minIssues.size(); i++) {
+            cout << i+1 << ") " << minIssues.at(i).name << endl;
+        }
+    }
+}
+
+void printDatabase() {
+    cout << databases[day] << endl;
+    if (day < 6)
+        day++;
+    else
+        day = 0;
+}
+
+void moveIssue() {
+    cout << "Severity of issue to move:" << endl;
+    int sev1 = sevInput();
+    while (sev1 == 1 && minIssues.empty()) {
+        cout << "Invalid input, please try again." << endl;
+        sev1 = sevInput();
+    }
+    while (sev1 == 2 && Issues.empty()) {
+        cout << "Invalid input, please try again." << endl;
+        sev1 = sevInput();
+    }
+    while (sev1 == 3 && majIssues.empty()) {
+        cout << "Invalid input, please try again." << endl;
+        sev1 = sevInput();
+    }
+
+    cout << "Index of issue:" << endl;
+    miniPrint(sev1);
+    int index = intInput();
+    if (sev1 == 3) {
+        while (index > majIssues.size()) {
+            cout << "Invalid input, please try again." << endl;
+            index = intInput();
+        }
+    }
+    if (sev1 == 2) {
+        while (index > Issues.size()) {
+            cout << "Invalid input, please try again." << endl;
+            index = intInput();
+        }
+    }
+    if (sev1 == 1) {
+        while (index > minIssues.size()) {
+            cout << "Invalid input, please try again." << endl;
+            index = intInput();
+        }
+    }
+    index -=1; //makes the index compatible
+    cout << "New severity:" << endl;
+    int sev2 = sevInput();
+    while (sev2 == sev1) {
+        cout << "Invalid input, please try again." << endl;
+        sev2 = sevInput();
+    }
+
+    if (sev1 == 3) {
+        issue temp = majIssues.at(index);
+        removeIssue(sev1, index);
+        if (sev2 == 2) {
+            Issues.push_back(temp);
+        }
+        else if (sev2 == 1) {
+            minIssues.push_back(temp);
+        }
+    }
+    else if (sev1 == 2) {
+        issue temp = Issues.at(index);
+        removeIssue(sev1, index);
+        if (sev2 == 3) {
+            majIssues.push_back(temp);
+        }
+        else if (sev2 == 1) {
+            minIssues.push_back(temp);
+        }
+    }
+    else if (sev1 == 1) {
+        issue temp = minIssues.at(index);
+        removeIssue(sev1, index);
+        if (sev2 == 3) {
+            majIssues.push_back(temp);
+        }
+        else if (sev2 == 2) {
+            Issues.push_back(temp);
+        }
+    }
+}
+
+//fills the vectors with some initial values, also used to reset if needed
+void initialize() {
+    majIssues.clear();
+    Issues.clear();
+    minIssues.clear();
+
+    addIssue(3,
+    "Immigration Policy",
+    "The policy the US has on immigration has been a hot topic, especially considering the Trump Admin's crackdown on it and the actions of Immigration and Customs Enforcement (ICE). "
+    "Some argue the US should be more open, in keeping with the country's founding ideals, while others are concerned about crime and birthright citizenship.");
+    addIssue(3,
+    "Cost of Living",
+    "Ever since the Covid pandemic, cost of living has skyrocketed, Many Americans are extremely worried, especially about the cost of gasoline.");
+    addIssue(3,
+    "War and Military Aid",
+    "Multiple international conflicts have been at the forefront of discussion for several years. There are arguments as to whether or not the US should continue sending military aid to countries"
+    " such as Ukraine or Israel. Additionally, the US has itself gotten more directly involved with Iran, with military actions against them resulting in the closure of the Strait of Hormuz, a vital passageway for oil.");
+
+    addIssue(2,
+    "Racism",
+    "Systemic racism against minorities, especially within the legal and criminal systems is a prominent issue. There is also some talks over inclusivity and diversity, and the concept of affirmative actions"
+    " and Diversity Equality Inclusion (DEI) hires, with the Trump admin seeking to heavily limit both.");
+    addIssue(2,
+    "Partisan Conflicts",
+    "The Democrat and Republican Party have become increasingly opposed to one another, leading to concerns about political gridlock. This can also tie into the increasing "
+    "levels of political violence that the US has been witnessing, with the assassination of political activist Charlie Kirk and the multiple attempted assassinations of President Trump.");
+
+    addIssue(1,
+    "Artificial Intelligence",
+    "The power of AI is considered by many to be a threat to the foundations of democracy, with its capacity for disinformation and the seeming careless innovation of tech companies. There are also some "
+    "environmental concerns, considering its massive power usage and usage of water for cooling.");
+    addIssue(1,
+    "Conditions of Public Works",
+    "Many cities in the US have a reputation for pothole filled roads and a lack of funds for other public works such as bridges.");
+    addIssue(1,
+    "Unemployment",
+    "Jobs have become rarer and more demanding, especially entry level ones. It is often complained that to get a job, you need experience, but to get experience, you need a job.");
+}
+
+//gives a random topic of a specific severity
+void randomTopic(int severity) {
+    if (severity == 3) {
+        int i = rand() % majIssues.size();
+        majIssues.at(i).print();
+    }
+    if (severity == 2) {
+        int i = rand() % Issues.size();
+        Issues.at(i).print();
+    }
+    if (severity == 1) {
+        int i = rand() % minIssues.size();
+        minIssues.at(i).print();
+    }
+}
+
+
+//returns a vector of issues that has find within the name
+vector<issue> search(const string& find) {
+    vector<issue> result;
+    for (const issue& i : majIssues) {
+        string n = i.name;
+        std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+        if (n.find(find) != string::npos) {
+            result.push_back(i);
+        }
+    }
+    for (const issue& i : Issues) {
+        string n = i.name;
+        std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+        if (n.find(find) != string::npos) {
+            result.push_back(i);
+        }
+    }
+    for (const issue& i : minIssues) {
+        string n = i.name;
+        std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+        if (n.find(find) != string::npos) {
+            result.push_back(i);
+        }
+    }
+    return result;
+}
+
+
+
+
+
+
+int main() {
+    initialize();
+    srand(time(NULL)); //apparently this is needed for rand to actually return a random value
+
+    cout << "\nWelcome to IssueFinder\n\nRandom Topic: " << endl;
+    randomTopic(rand() % 3 + 1);
+    cout << "Database of the day: ";
+    printDatabase();
+    cout << "\nCurrent topics:" << endl;
+    miniPrint(1);
+    cout << endl;
+    miniPrint(2);
+    cout << endl;
+    miniPrint(3);
+
+    cout<<"\nMENU\n1 to search for a topic\n2 to add a topic\n3 to progress day\n4 to log in as admin\n5 to quit" << endl;
+    int choice = intInput();
+    while (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+        cout<<"Invalid input, please try again." << endl;
+        choice = intInput();
+    }
+    while (choice != 5) {
+        while (choice == 1) {
+            cout << "Enter name or word to find (must match the name of issue exactly)(enter \"cancel\" to exit out of search):" << endl;
+            string find;
+            cin >> find;
+            while (find != "cancel") {
+                vector<issue> result = search(find);
+                for (issue i : result) {
+                    i.print();
+                }
+                cout << "\nEnter name or word to find (must match the name of issue exactly)(enter \"cancel\" to exit out of search):" << endl;
+                cin >> find;
+            }
+            choice = 0;
+        }
+        if (choice == 2) {
+            cout << "Enter the severity of the issue (1 for low, 2 for moderate, 3 for high):" << endl;
+            int sev = sevInput();
+            cout << "Enter the name of the issue:" << endl;
+            cin.ignore();
+            string name;
+            getline(cin, name);
+            cout << "Describe the issue:" << endl;
+            string text;
+            getline(cin, text);
+            addIssue(sev, name, text);
+            miniPrint(sev);
+        }
+        if (choice == 3) {
+            cout << "New database of the day: ";
+            printDatabase();
+        }
+        if (choice == 4) {
+            string pass;
+            int adchoice;
+            cout << "Enter the administrator's password:" << endl;
+            cin.ignore();
+            cin >> pass;
+            if (pass == "admin") {
+                cout<<"\nADMIN MENU\n1 to see current topics\n2 to move a topic\n3 to remove a topic\n4 to update severity\n5 to reset database\n6 to quit" << endl;
+                adchoice = intInput();
+                while (adchoice != 1 && adchoice != 2 && adchoice != 3 && adchoice != 4 && adchoice != 5 && adchoice != 6) {
+                    cout<<"Invalid input, please try again." << endl;
+                    adchoice = intInput();
+                }
+                while (adchoice != 6) {
+                    if (adchoice == 1) {
+                        cout << "\nMinor - 1:" << endl;
+                        miniPrint(1);
+                        cout << "Moderate - 2:" << endl;
+                        miniPrint(2);
+                        cout << "High - 3:" << endl;
+                        miniPrint(3);
+                    }
+                    else if (adchoice == 2) {
+                        moveIssue();
+                    }
+                    else if (adchoice == 3) {
+                        cout << "Severity of issue to remove:" << endl;
+                        int sev = sevInput();
+                        cout << "Index of issue to remove:" << endl;
+                        miniPrint(sev);
+                        int index = intInput();
+                        if (sev == 3) {
+                            while (index > majIssues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index -=1;
+                            removeIssue(sev, index);
+                        }
+                        if (sev == 2) {
+                            while (index > Issues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index -=1;
+                            removeIssue(sev, index);
+                        }
+                        if (sev == 1) {
+                            while (index > minIssues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index -=1;
+                            removeIssue(sev, index);
+                        }
+                    }
+                    else if (adchoice == 4) {
+                        cout << "Severity of issue to adjust:" << endl;
+                        int sev1 = sevInput();
+                        cout << endl;
+                        miniPrint(sev1);
+                        cout << endl;
+                        cout << "Index of issue to adjust:" << endl;
+                        int index = intInput();
+                        if (sev1 == 3) {
+                            while (index > majIssues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index--;
+                            cout << "New severity:" << endl;
+                            int sev2 = sevInput();
+                            majIssues.at(index).severity = sev2;
+                        }
+                        if (sev1 == 2) {
+                            while (index > Issues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index--;
+                            cout << "New severity:" << endl;
+                            int sev2 = sevInput();
+                            Issues.at(index).severity = sev2;
+                        }
+                        if (sev1 == 1) {
+                            while (index > minIssues.size()) {
+                                cout << "Invalid input, please try again." << endl;
+                                index = intInput();
+                            }
+                            index--;
+                            cout << "New severity:" << endl;
+                            int sev2 = sevInput();
+                            minIssues.at(index).severity = sev2;
+                        }
+                    }
+                    else if (adchoice == 5) {
+                        initialize();
+                        cout << "System reset complete" << endl;
+                    }
+                    cout<<"\nADMIN MENU\n1 to see current topics\n2 to move a topic\n3 to remove a topic\n4 to update severity\n5 to reset database\n6 to quit" << endl;
+                    adchoice = intInput();
+                    while (adchoice != 1 && adchoice != 2 && adchoice != 3 && adchoice != 4 && adchoice != 5 && adchoice != 6) {
+                        cout<<"Invalid input, please try again." << endl;
+                        adchoice = intInput();
+                    }
+                }
+            }
+        }
+        cout<<"\nMENU\n1 to search for a topic\n2 to add a topic\n3 to progress day\n4 to log in as admin\n5 to quit" << endl;
+        choice = intInput();
+        while (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+            cout<<"Invalid input, please try again." << endl;
+            choice = intInput();
+        }
+    }
+
+    return 0;
+}

@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+
 void main() {
 
     //prints a simple menu for the user to navigate
@@ -16,6 +18,7 @@ void main() {
             IO.println("Select program:\n1 - Basic Calculator\n2 - Pascal's Pyramid\n3 - Connect Four\n4 - Return to Menu");
             int choice = integerInput();
             choice = validateInput(choice, 1, 4);
+            //space for readability
             IO.println();
 
             if (choice == 1) {
@@ -34,6 +37,43 @@ void main() {
                 try {
                     ConnectFour.main();
                 } catch (Exception e) {
+                    IO.println("Uh oh! Something went wrong. Sorry about that.");
+                }
+            }
+        } else if (action == 2) {
+            IO.println("Sorry, not yet implemented.");
+        } else if (action == 3) {
+            IO.println("Note: These cannot be run since they are written in C++, only read." +
+                    "\nSelect program:\n1 - IssueFinder (504 Lines)\n2 - Array Assignment(287 Lines)" +
+                    "\n3 - Conditional Assignment (130 Lines)\n4 - Return to Menu");
+            int choice = integerInput();
+            choice = validateInput(choice, 1, 4);
+            //space for readability
+            IO.println();
+
+            String line;
+            if (choice == 1) {
+                try(BufferedReader br = new BufferedReader(new FileReader("CS193-Final/CAPSFinalProject.txt"))) {
+                    while((line = br.readLine()) != null) {
+                        IO.println(line);
+                    }
+                } catch (IOException e) {
+                    IO.println("Uh oh! Something went wrong. Sorry about that.");
+                }
+            } else if (choice == 2) {
+                try(BufferedReader br = new BufferedReader(new FileReader("CS193-Final/CAPSArrayAssignment.txt"))) {
+                    while((line = br.readLine()) != null) {
+                        IO.println(line);
+                    }
+                } catch (IOException e) {
+                    IO.println("Uh oh! Something went wrong. Sorry about that.");
+                }
+            } else if (choice == 3) {
+                try(BufferedReader br = new BufferedReader(new FileReader("CS193-Final/CAPSConditionalAssignment.txt"))) {
+                    while((line = br.readLine()) != null) {
+                        IO.println(line);
+                    }
+                } catch (IOException e) {
                     IO.println("Uh oh! Something went wrong. Sorry about that.");
                 }
             }

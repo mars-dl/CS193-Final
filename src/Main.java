@@ -15,7 +15,8 @@ void main() {
 
         //view programs that the user can run and interact with
         if (action == 1) {
-            IO.println("Select program:\n1 - Basic Calculator\n2 - Pascal's Pyramid\n3 - Connect Four\n4 - Return to Menu");
+            IO.println("\nThese are programs that I created as part of my first semester at Purdue, and they are fully runnable." +
+                    "\nSelect program:\n1 - Basic Calculator\n2 - Pascal's Pyramid\n3 - Connect Four\n4 - Return to Menu");
             int choice = integerInput();
             choice = validateInput(choice, 1, 4);
             //space for readability
@@ -41,9 +42,23 @@ void main() {
                 }
             }
         } else if (action == 2) {
-            IO.println("Sorry, not yet implemented.");
+            IO.println("\nThese are also programs that I created at Purdue that aren't interactive, but I still want to demonstrate them." +
+                    "\nSelect program:\n1 - Veterinary Clinic Database\n2 - \n3 - Return to Menu");
+            int choice = integerInput();
+            choice = validateInput(choice, 1, 4);
+            //space for readability
+            IO.println();
+
+            if (choice == 1) {
+                try {
+                    Demo1Runner.main();
+                } catch (Exception e) {
+                    IO.println("Uh oh! Something went wrong. Sorry about that.");
+                }
+            }
+
         } else if (action == 3) {
-            IO.println("Note: These cannot be run since they are written in C++, only read." +
+            IO.println("These are programs I created as part of Blue Valley's Center for Advanced Professional Studies. These cannot be run since they are written in C++." +
                     "\nSelect program:\n1 - IssueFinder (504 Lines)\n2 - Array Assignment(287 Lines)" +
                     "\n3 - Conditional Assignment (130 Lines)\n4 - Return to Menu");
             int choice = integerInput();

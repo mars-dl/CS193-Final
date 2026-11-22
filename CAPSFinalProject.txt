@@ -337,7 +337,7 @@ int main() {
 
     cout << "\nWelcome to IssueFinder\n\nRandom Topic: " << endl;
     randomTopic(rand() % 3 + 1);
-    cout << "Database of the day: ";
+    cout << "VetDatabase.Database of the day: ";
     printDatabase();
     cout << "\nCurrent topics:" << endl;
     miniPrint(1);

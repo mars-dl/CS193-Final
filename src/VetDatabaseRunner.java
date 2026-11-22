@@ -1,13 +1,12 @@
-import Demo1.Database;
-import Demo1.Entry;
-import Demo1.EntryException;
-import Demo1.OwnerEntry;
-import Demo1.PetEntry;
-import Demo1.VisitEntry;
+import VetDatabase.Database;
+import VetDatabase.Entry;
+import VetDatabase.OwnerEntry;
+import VetDatabase.PetEntry;
+import VetDatabase.VisitEntry;
 
 import java.util.ArrayList;
 
-public class Demo1Runner {
+public class VetDatabaseRunner {
 
     static Database db = new Database("");
 

@@ -1,4 +1,4 @@
-package Demo1;
+package VetDatabase;
 
 /**
  * PJ03 Demo1.OwnerEntry

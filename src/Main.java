@@ -4,21 +4,27 @@ void main() {
 
     //prints a simple menu for the user to navigate
     IO.println("Hello, and welcome to a repository of some of the projects I have created!");
-    IO.println("Select action:\n1 - See Runnables\n2 - See Demonstrations\n3 - See View-Only\n4 - Quit");
+    IO.println("Select action:\n1 - See Programs\n2 - See View-Only\n3 - Quit");
 
     //gets the action
     int action = integerInput();
-    action = validateInput(action, 1, 4);
+    action = validateInput(action, 1, 3);
 
     //keeps the program running unless the user wants to quit
-    while(action != 4) {
-
+    while(action != 3) {
         //view programs that the user can run and interact with
         if (action == 1) {
-            IO.println("\nThese are programs that I created as part of my first semester at Purdue, and they are fully runnable." +
-                    "\nSelect program:\n1 - Basic Calculator\n2 - Pascal's Pyramid\n3 - Connect Four\n4 - Return to Menu");
+            IO.println("\nThese are programs that I created as part of my first semester at Purdue, and most are fully runnable." +
+                    "\nSelect program:" +
+                    "\n1 - Basic Calculator" +
+                    "\n2 - Pascal's Pyramid" +
+                    "\n3 - Connect Four" +
+                    "\n4 - Vet Database (Not Interactive)" +
+                    "\n5 - Echo Server (Will end current session)" +
+                    "\n6 - " +
+                    "\n7 Return to Menu");
             int choice = integerInput();
-            choice = validateInput(choice, 1, 4);
+            choice = validateInput(choice, 1, 7);
             //space for readability
             IO.println();
 
@@ -34,30 +40,27 @@ void main() {
                 } catch (Exception e) {
                     IO.println("Uh oh! Something went wrong. Sorry about that.");
                 }
-            } if (choice == 3) {
+            } else if (choice == 3) {
                 try {
                     ConnectFour.main();
                 } catch (Exception e) {
                     IO.println("Uh oh! Something went wrong. Sorry about that.");
                 }
-            }
-        } else if (action == 2) {
-            IO.println("\nThese are also programs that I created at Purdue that aren't interactive, but I still want to demonstrate them." +
-                    "\nSelect program:\n1 - Veterinary Clinic Database\n2 - \n3 - Return to Menu");
-            int choice = integerInput();
-            choice = validateInput(choice, 1, 4);
-            //space for readability
-            IO.println();
-
-            if (choice == 1) {
+            } else if (choice == 4) {
                 try {
-                    Demo1Runner.main();
+                    VetDatabaseRunner.main();
+                } catch (Exception e) {
+                    IO.println("Uh oh! Something went wrong. Sorry about that.");
+                }
+            } else if (choice == 5) {
+                try {
+                    EchoServerRunner.main();
                 } catch (Exception e) {
                     IO.println("Uh oh! Something went wrong. Sorry about that.");
                 }
             }
-
-        } else if (action == 3) {
+            //view read-only programs
+        } else if (action == 2) {
             IO.println("These are programs I created as part of Blue Valley's Center for Advanced Professional Studies. These cannot be run since they are written in C++." +
                     "\nSelect program:\n1 - IssueFinder (504 Lines)\n2 - Array Assignment(287 Lines)" +
                     "\n3 - Conditional Assignment (130 Lines)\n4 - Return to Menu");
@@ -96,9 +99,9 @@ void main() {
 
 
         //new iteration
-        IO.println("\nSelect action:\n1 - See Runnables\n2 - See Demonstrations\n3 - See View-Only\n4 - Quit");
+        IO.println("\nSelect action:\n1 - See Programs\n2 - See View-Only\n3 - Quit");
         action = integerInput();
-        action = validateInput(action, 1, 4);
+        action = validateInput(action, 1, 3);
     }
 
 }

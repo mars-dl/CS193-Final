@@ -11,8 +11,7 @@ public class EchoServerClient {
                 writer.println(line);
                 IO.println("Server says: " + reader.readLine());
             }
-        } catch (IOException e) {
-            IO.println("Finished");
-        }
+        } catch (IOException e) {}
+        IO.println("Finished");
     }
 }

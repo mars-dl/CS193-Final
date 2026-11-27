@@ -37,7 +37,6 @@ public class EchoServer {
         public void run() {
             synchronized (LOCK) {
                 connections++;
-                IO.println("Connections: " + connections);
             }
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
@@ -49,7 +48,6 @@ public class EchoServer {
                             writer.println("EXIT");
                             synchronized (LOCK) {
                                 connections--;
-                                IO.println("Connections: " + connections);
                             }
                             break;
                         } else {

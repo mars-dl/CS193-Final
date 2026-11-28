@@ -8,6 +8,7 @@ void main() {
     int action = integerInput();
     action = validateInput(action, 1, 2);
 
+
     //keeps the program running unless the user wants to quit
     while(action != 2) {
         //view programs that the user can run and interact with

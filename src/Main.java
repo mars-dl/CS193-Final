@@ -87,7 +87,7 @@ public int integerInput() {
     return toReturn;
 }
 
-//a method to return an integer without crashing the program
+//a method to make sure an integer is within a specified range
 public int validateInput(int action, int lo, int hi) {
     while (action < lo || action > hi) {
         IO.println("Error, invalid action");

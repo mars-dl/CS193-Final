@@ -37,6 +37,8 @@ public class VetDatabaseRunner {
 
         IO.println("\nI'll add a few more entries, and the database now looks like this:");
 
+        //creating a bunch more entries
+
         OwnerEntry owner2 = new OwnerEntry("Vanessa", "234 Secondary Street", 739164026);
         PetEntry pet2 = new PetEntry("Zake");
         VisitEntry v201 = new VisitEntry("2025-01-01", services, 25.0);
@@ -51,6 +53,8 @@ public class VetDatabaseRunner {
         VisitEntry v301 = new VisitEntry("2026-11-20", services, 25.0);
 
         OwnerEntry owner4 = new OwnerEntry("Zinc", "30 Element Street", 746302134);
+
+        //the add order for these entries are out-of-order
 
         db.addOwner(owner4);
 
